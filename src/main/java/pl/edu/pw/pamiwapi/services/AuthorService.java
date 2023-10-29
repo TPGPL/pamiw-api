@@ -34,7 +34,7 @@ public class AuthorService {
         var violations = validator.validate(author);
 
         if (!violations.isEmpty()) {
-            return createInvalidResponse(violations);
+            return ServiceResponse.createInvalidResponse(violations);
         }
 
         return ServiceResponse.<Author>builder()
@@ -59,7 +59,7 @@ public class AuthorService {
         var violations = validator.validate(authorToUpdate);
 
         if (!violations.isEmpty()) {
-            return createInvalidResponse(violations);
+            return ServiceResponse.createInvalidResponse(violations);
         }
 
         return ServiceResponse.<Author>builder()
@@ -83,18 +83,6 @@ public class AuthorService {
                 .name(dto.getName())
                 .surname(dto.getSurname())
                 .email(dto.getEmail())
-                .build();
-    }
-
-    private ServiceResponse<Author> createInvalidResponse(Set<ConstraintViolation<Author>> violations) {
-        var message = new StringBuilder();
-
-        for (var v : violations) {
-            message.append(v.getMessage()).append(" ");
-        }
-
-        return ServiceResponse.<Author>builder()
-                .message(message.toString())
                 .build();
     }
 }
