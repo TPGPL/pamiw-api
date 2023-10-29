@@ -1,11 +1,11 @@
 package pl.edu.pw.pamiwapi.models;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
+import lombok.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -14,11 +14,17 @@ import java.util.List;
 @NoArgsConstructor
 @Getter
 @Setter
+@Builder
+@NotNull(message = "The publisher must not be null.")
 public class Publisher {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+    @Size(min = 2, max = 50, message = "The publisher name must be between 2 and 50 characters.")
+    @NotNull(message = "The publisher name must not be null.")
     private String name;
     @OneToMany(mappedBy = "publisher", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Book> books;
+    @Builder.Default
+    @NotNull(message = "The publisher books must not be null.")
+    private List<Book> books = new ArrayList<>();
 }
