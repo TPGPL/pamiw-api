@@ -72,6 +72,10 @@ public class BookService {
                 .build();
     }
 
+    public void delete(int id) {
+        repository.deleteById(id);
+    }
+
     public Book mapFromDto(BookDto dto) {
         if (dto == null) return null;
 

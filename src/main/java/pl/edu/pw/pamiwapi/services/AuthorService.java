@@ -1,6 +1,5 @@
 package pl.edu.pw.pamiwapi.services;
 
-import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -8,8 +7,6 @@ import pl.edu.pw.pamiwapi.dtos.AuthorDto;
 import pl.edu.pw.pamiwapi.models.Author;
 import pl.edu.pw.pamiwapi.repositories.AuthorRepository;
 import pl.edu.pw.pamiwapi.utils.ServiceResponse;
-
-import java.util.Set;
 
 @Service
 public class AuthorService {
@@ -68,12 +65,8 @@ public class AuthorService {
                 .build();
     }
 
-    public ServiceResponse<Author> delete(int id) {
+    public void delete(int id) {
         repository.deleteById(id);
-
-        return ServiceResponse.<Author>builder()
-                .wasSuccessful(true)
-                .build();
     }
 
     public Author mapFromDto(AuthorDto dto) {

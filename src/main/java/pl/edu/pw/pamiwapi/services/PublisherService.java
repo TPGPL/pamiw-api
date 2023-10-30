@@ -63,12 +63,8 @@ public class PublisherService {
                 .build();
     }
 
-    public ServiceResponse<Publisher> delete(int id) {
+    public void delete(int id) {
         repository.deleteById(id);
-
-        return ServiceResponse.<Publisher>builder()
-                .wasSuccessful(true)
-                .build();
     }
 
     public Publisher mapFromDto(PublisherDto dto) {
