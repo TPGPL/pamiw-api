@@ -34,7 +34,7 @@ public class AuthorService {
             return ServiceResponse.createInvalidResponse(violations);
         }
 
-        if (!repository.existsByEmail(author.getEmail())) {
+        if (repository.existsByEmail(author.getEmail())) {
             return ServiceResponse.<Author>builder()
                     .message("The author with given email already exists.")
                     .build();
