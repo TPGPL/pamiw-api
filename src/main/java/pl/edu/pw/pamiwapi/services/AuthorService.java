@@ -34,6 +34,12 @@ public class AuthorService {
             return ServiceResponse.createInvalidResponse(violations);
         }
 
+        if (!repository.findByEmail(author.getEmail()).isEmpty()) {
+            return ServiceResponse.<Author>builder()
+                    .message("The author with given email already exists.")
+                    .build();
+        }
+
         return ServiceResponse.<Author>builder()
                 .data(repository.save(author))
                 .wasSuccessful(true)
@@ -57,6 +63,18 @@ public class AuthorService {
 
         if (!violations.isEmpty()) {
             return ServiceResponse.createInvalidResponse(violations);
+        }
+
+        var sameEmailAuthors = repository.findByEmail(authorToUpdate.getEmail());
+
+        if (!sameEmailAuthors.isEmpty()) {
+            for (var a : sameEmailAuthors) {
+                if (a.getId() != authorToUpdate.getId()) {
+                    return ServiceResponse.<Author>builder()
+                            .message("The author with given email already exists.")
+                            .build();
+                }
+            }
         }
 
         return ServiceResponse.<Author>builder()
