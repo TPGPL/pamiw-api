@@ -1,5 +1,6 @@
 package pl.edu.pw.pamiwapi.utils;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.validation.ConstraintViolation;
 import lombok.*;
 
@@ -10,8 +11,10 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ServiceResponse<T> {
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private T data;
     private boolean wasSuccessful;
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private String message;
 
     public static <T> ServiceResponse<T> createInvalidResponse(Set<ConstraintViolation<T>> violations) {
