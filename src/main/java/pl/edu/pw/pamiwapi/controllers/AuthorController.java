@@ -22,23 +22,29 @@ public class AuthorController {
     }
 
     @GetMapping("/authors")
-    public ResponseEntity<List<AuthorDto>> getAll() {
+    public ResponseEntity<ServiceResponse<List<AuthorDto>>> getAll() {
         List<AuthorDto> data = new ArrayList<>();
 
         service.getAll().forEach((x) -> data.add(AuthorDto.mapToDto(x)));
 
         return ResponseEntity
                 .status(data.isEmpty() ? HttpStatus.NO_CONTENT : HttpStatus.OK)
-                .body(data);
+                .body(ServiceResponse.<List<AuthorDto>>builder()
+                        .wasSuccessful(true)
+                        .data(data)
+                        .build());
     }
 
     @GetMapping("/authors/{id}")
-    public ResponseEntity<AuthorDto> get(@PathVariable int id) {
+    public ResponseEntity<ServiceResponse<AuthorDto>> get(@PathVariable int id) {
         var data = service.getById(id);
 
         return ResponseEntity
                 .status(data == null ? HttpStatus.NO_CONTENT : HttpStatus.OK)
-                .body(AuthorDto.mapToDto(data));
+                .body(ServiceResponse.<AuthorDto>builder()
+                        .wasSuccessful(true)
+                        .data(AuthorDto.mapToDto(data))
+                        .build());
     }
 
     @PostMapping("/authors")

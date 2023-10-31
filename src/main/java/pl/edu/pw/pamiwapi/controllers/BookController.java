@@ -22,23 +22,29 @@ public class BookController {
     }
 
     @GetMapping("/books")
-    public ResponseEntity<List<BookDto>> getAll() {
+    public ResponseEntity<ServiceResponse<List<BookDto>>> getAll() {
         List<BookDto> data = new ArrayList<>();
 
         service.getAll().forEach((x) -> data.add(BookDto.mapToDto(x)));
 
         return ResponseEntity
                 .status(data.isEmpty() ? HttpStatus.NO_CONTENT : HttpStatus.OK)
-                .body(data);
+                .body(ServiceResponse.<List<BookDto>>builder()
+                        .wasSuccessful(true)
+                        .data(data)
+                        .build());
     }
 
     @GetMapping("/books/{id}")
-    public ResponseEntity<BookDto> get(@PathVariable int id) {
+    public ResponseEntity<ServiceResponse<BookDto>> get(@PathVariable int id) {
         var data = service.getById(id);
 
         return ResponseEntity
                 .status(data == null ? HttpStatus.NO_CONTENT : HttpStatus.OK)
-                .body(BookDto.mapToDto(data));
+                .body(ServiceResponse.<BookDto>builder()
+                        .wasSuccessful(true)
+                        .data(BookDto.mapToDto(data))
+                        .build());
     }
 
     @PostMapping("/books")

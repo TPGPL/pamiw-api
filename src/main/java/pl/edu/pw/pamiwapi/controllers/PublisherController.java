@@ -22,23 +22,29 @@ public class PublisherController {
     }
 
     @GetMapping("/publishers")
-    public ResponseEntity<List<PublisherDto>> getAll() {
+    public ResponseEntity<ServiceResponse<List<PublisherDto>>> getAll() {
         List<PublisherDto> data = new ArrayList<>();
 
         service.getAll().forEach((x) -> data.add(PublisherDto.mapToDto(x)));
 
         return ResponseEntity
-                .status(data.isEmpty() ? HttpStatus.NO_CONTENT : HttpStatus.OK)
-                .body(data);
+                .status(HttpStatus.OK)
+                .body(ServiceResponse.<List<PublisherDto>>builder()
+                        .data(data)
+                        .wasSuccessful(true)
+                        .build());
     }
 
     @GetMapping("/publishers/{id}")
-    public ResponseEntity<PublisherDto> get(@PathVariable int id) {
+    public ResponseEntity<ServiceResponse<PublisherDto>> get(@PathVariable int id) {
         var data = service.getById(id);
 
         return ResponseEntity
-                .status(data == null ? HttpStatus.NO_CONTENT : HttpStatus.OK)
-                .body(PublisherDto.mapToDto(data));
+                .status(HttpStatus.OK)
+                .body(ServiceResponse.<PublisherDto>builder()
+                        .wasSuccessful(true)
+                        .data(PublisherDto.mapToDto(data))
+                        .build());
     }
 
     @PostMapping("/publishers")
