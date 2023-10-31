@@ -72,8 +72,8 @@ public class BookService {
                 .build();
     }
 
-    public ServiceResponse<Book> delete(int id) {
-        var response = ServiceResponse.<Book>builder().wasSuccessful(true);
+    public ServiceResponse<Void> delete(int id) {
+        var response = ServiceResponse.<Void>builder().wasSuccessful(true);
 
         if (!repository.existsById(id)) {
             return response.message("No book to delete.").build();

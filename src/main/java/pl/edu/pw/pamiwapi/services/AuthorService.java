@@ -77,8 +77,8 @@ public class AuthorService {
                 .build();
     }
 
-    public ServiceResponse<Author> delete(int id) {
-        var response = ServiceResponse.<Author>builder().wasSuccessful(true);
+    public ServiceResponse<Void> delete(int id) {
+        var response = ServiceResponse.<Void>builder().wasSuccessful(true);
 
         if (!repository.existsById(id)) {
             return response.message("No author to delete.").build();

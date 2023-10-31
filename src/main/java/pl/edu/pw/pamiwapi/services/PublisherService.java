@@ -63,8 +63,8 @@ public class PublisherService {
                 .build();
     }
 
-    public ServiceResponse<Publisher> delete(int id) {
-        var response = ServiceResponse.<Publisher>builder().wasSuccessful(true);
+    public ServiceResponse<Void> delete(int id) {
+        var response = ServiceResponse.<Void>builder().wasSuccessful(true);
 
         if (!repository.existsById(id)) {
             return response.message("No publisher to delete.").build();
