@@ -78,19 +78,15 @@ public class AuthorService {
     }
 
     public ServiceResponse<Author> delete(int id) {
+        var response = ServiceResponse.<Author>builder().wasSuccessful(true);
+
         if (!repository.existsById(id)) {
-            return ServiceResponse.<Author>builder()
-                    .wasSuccessful(true)
-                    .message("No author to delete.")
-                    .build();
+            return response.message("No author to delete.").build();
         }
 
         repository.deleteById(id);
 
-        return ServiceResponse.<Author>builder()
-                .wasSuccessful(true)
-                .message("The author was successfully deleted.")
-                .build();
+        return response.message("The author was successfully deleted.").build();
     }
 
     public Author mapFromDto(AuthorDto dto) {

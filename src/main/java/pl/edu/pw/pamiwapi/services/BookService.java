@@ -73,19 +73,15 @@ public class BookService {
     }
 
     public ServiceResponse<Book> delete(int id) {
+        var response = ServiceResponse.<Book>builder().wasSuccessful(true);
+
         if (!repository.existsById(id)) {
-            return ServiceResponse.<Book>builder()
-                    .wasSuccessful(true)
-                    .message("No book to delete.")
-                    .build();
+            return response.message("No book to delete.").build();
         }
 
         repository.deleteById(id);
 
-        return ServiceResponse.<Book>builder()
-                .wasSuccessful(true)
-                .message("The book was deleted successfully.")
-                .build();
+        return response.message("The book was deleted successfully.").build();
     }
 
     public Book mapFromDto(BookDto dto) {

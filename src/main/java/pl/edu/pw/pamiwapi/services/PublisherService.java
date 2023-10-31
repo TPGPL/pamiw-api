@@ -64,19 +64,15 @@ public class PublisherService {
     }
 
     public ServiceResponse<Publisher> delete(int id) {
+        var response = ServiceResponse.<Publisher>builder().wasSuccessful(true);
+
         if (!repository.existsById(id)) {
-            return ServiceResponse.<Publisher>builder()
-                    .wasSuccessful(true)
-                    .message("No publisher to delete.")
-                    .build();
+            return response.message("No publisher to delete.").build();
         }
 
         repository.deleteById(id);
 
-        return ServiceResponse.<Publisher>builder()
-                .wasSuccessful(true)
-                .message("The publisher was successfully deleted.")
-                .build();
+        return response.message("The publisher was successfully deleted.").build();
     }
 
     public Publisher mapFromDto(PublisherDto dto) {
