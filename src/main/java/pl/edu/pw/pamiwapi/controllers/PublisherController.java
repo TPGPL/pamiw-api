@@ -27,11 +27,11 @@ public class PublisherController {
 
         service.getAll().forEach((x) -> data.add(PublisherDto.mapToDto(x)));
 
-        return ResponseEntity
-                .status(HttpStatus.OK)
+        return ResponseEntity.status(HttpStatus.OK)
                 .body(ServiceResponse.<List<PublisherDto>>builder()
                         .data(data)
                         .wasSuccessful(true)
+                        .message(data.isEmpty() ? "No data to fetch." : null)
                         .build());
     }
 
@@ -39,11 +39,11 @@ public class PublisherController {
     public ResponseEntity<ServiceResponse<PublisherDto>> get(@PathVariable int id) {
         var data = service.getById(id);
 
-        return ResponseEntity
-                .status(HttpStatus.OK)
+        return ResponseEntity.status(HttpStatus.OK)
                 .body(ServiceResponse.<PublisherDto>builder()
                         .wasSuccessful(true)
                         .data(PublisherDto.mapToDto(data))
+                        .message(data == null ? "No data to fetch." : null)
                         .build());
     }
 
@@ -71,24 +71,24 @@ public class PublisherController {
 
     @DeleteMapping("/publishers/{id}")
     public ResponseEntity<ServiceResponse<PublisherDto>> delete(@PathVariable int id) {
-        service.delete(id);
+        var response = service.delete(id);
 
-        return ResponseEntity
-                .status(HttpStatus.NO_CONTENT)
-                .body(null);
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(ServiceResponse.<PublisherDto>builder()
+                        .wasSuccessful(true)
+                        .message(response.getMessage())
+                        .build());
     }
 
     private ResponseEntity<ServiceResponse<PublisherDto>> getInvalidResponse(ServiceResponse<Publisher> response) {
         return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY)
                 .body(ServiceResponse.<PublisherDto>builder()
-                        .wasSuccessful(response.isWasSuccessful())
                         .message(response.getMessage())
                         .build());
     }
 
     private ResponseEntity<ServiceResponse<PublisherDto>> getValidResponse(ServiceResponse<Publisher> response) {
-        return ResponseEntity
-                .status(HttpStatus.OK)
+        return ResponseEntity.status(HttpStatus.OK)
                 .body(ServiceResponse.<PublisherDto>builder()
                         .wasSuccessful(true)
                         .data(PublisherDto.mapToDto(response.getData()))
