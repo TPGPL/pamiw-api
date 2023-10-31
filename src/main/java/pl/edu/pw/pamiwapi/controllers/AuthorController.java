@@ -27,11 +27,11 @@ public class AuthorController {
 
         service.getAll().forEach((x) -> data.add(AuthorDto.mapToDto(x)));
 
-        return ResponseEntity
-                .status(data.isEmpty() ? HttpStatus.NO_CONTENT : HttpStatus.OK)
+        return ResponseEntity.status(HttpStatus.OK)
                 .body(ServiceResponse.<List<AuthorDto>>builder()
                         .wasSuccessful(true)
                         .data(data)
+                        .message(data.isEmpty() ? "No data to fetch." : null)
                         .build());
     }
 
@@ -39,11 +39,11 @@ public class AuthorController {
     public ResponseEntity<ServiceResponse<AuthorDto>> get(@PathVariable int id) {
         var data = service.getById(id);
 
-        return ResponseEntity
-                .status(data == null ? HttpStatus.NO_CONTENT : HttpStatus.OK)
+        return ResponseEntity.status(HttpStatus.OK)
                 .body(ServiceResponse.<AuthorDto>builder()
                         .wasSuccessful(true)
                         .data(AuthorDto.mapToDto(data))
+                        .message(data == null ? "No data to fetch." : null)
                         .build());
     }
 
@@ -71,24 +71,24 @@ public class AuthorController {
 
     @DeleteMapping("/authors/{id}")
     public ResponseEntity<ServiceResponse<AuthorDto>> delete(@PathVariable int id) {
-        service.delete(id);
+        var response = service.delete(id);
 
-        return ResponseEntity
-                .status(HttpStatus.NO_CONTENT)
-                .body(null);
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(ServiceResponse.<AuthorDto>builder()
+                        .wasSuccessful(true)
+                        .message(response.getMessage())
+                        .build());
     }
 
     private ResponseEntity<ServiceResponse<AuthorDto>> getInvalidResponse(ServiceResponse<Author> response) {
         return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY)
                 .body(ServiceResponse.<AuthorDto>builder()
-                        .wasSuccessful(response.isWasSuccessful())
                         .message(response.getMessage())
                         .build());
     }
 
     private ResponseEntity<ServiceResponse<AuthorDto>> getValidResponse(ServiceResponse<Author> response) {
-        return ResponseEntity
-                .status(HttpStatus.OK)
+        return ResponseEntity.status(HttpStatus.OK)
                 .body(ServiceResponse.<AuthorDto>builder()
                         .wasSuccessful(true)
                         .data(AuthorDto.mapToDto(response.getData()))
