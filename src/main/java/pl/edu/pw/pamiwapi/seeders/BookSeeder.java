@@ -9,7 +9,7 @@ import pl.edu.pw.pamiwapi.services.BookService;
 import pl.edu.pw.pamiwapi.services.PublisherService;
 
 import java.sql.Date;
-import java.util.Random;
+import java.util.concurrent.TimeUnit;
 
 import static pl.edu.pw.pamiwapi.seeders.Properties.NO_OF_DATA;
 
@@ -30,19 +30,18 @@ public class BookSeeder {
 
     public void seed() {
         int maxValue = Math.max(NO_OF_DATA - 5, NO_OF_DATA / 2);
-        var rand = new Random();
 
         for (int i = 0; i < NO_OF_DATA; i++) {
             var book = Book.builder()
-                    .publisher(publisherService.getById(rand.nextInt(maxValue)))
-                    .author(authorService.getById(rand.nextInt(maxValue)))
+                    .publisher(publisherService.getById(faker.random().nextInt(maxValue)))
+                    .author(authorService.getById(faker.random().nextInt(maxValue)))
                     .title(faker.book().title())
-                    .isbn("1234567894444")
-                    .pageCount(rand.nextInt(10, 1000))
-                    .releaseDate(new Date(1111100000))
+                    .isbn(faker.regexify("[0-9]{13}"))
+                    .pageCount(faker.random().nextInt(10, 1000))
+                    .releaseDate(new Date(faker.date().past(365, TimeUnit.DAYS).getTime()))
                     .build();
 
-                    service.create(book);
+            service.create(book);
         }
     }
 }

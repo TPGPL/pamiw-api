@@ -22,7 +22,7 @@ public class PublisherSeeder {
     public void seed() {
         for (int i = 0; i < NO_OF_DATA; i++) {
             var publisher = Publisher.builder()
-                    .name(faker.company().name())
+                    .name(faker.book().publisher())
                     .build();
 
             service.create(publisher);
