@@ -9,8 +9,10 @@ import pl.edu.pw.pamiwapi.services.BookService;
 import pl.edu.pw.pamiwapi.services.PublisherService;
 
 import java.sql.Date;
+import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
+import static pl.edu.pw.pamiwapi.seeders.Properties.DATA_SEED;
 import static pl.edu.pw.pamiwapi.seeders.Properties.NO_OF_DATA;
 
 @Component
@@ -25,7 +27,7 @@ public class BookSeeder {
         this.service = service;
         this.authorService = authorService;
         this.publisherService = publisherService;
-        this.faker = new Faker();
+        this.faker = new Faker(new Random(DATA_SEED));
     }
 
     public void seed() {

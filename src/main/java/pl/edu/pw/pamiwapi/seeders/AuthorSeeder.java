@@ -6,7 +6,10 @@ import org.springframework.stereotype.Component;
 import pl.edu.pw.pamiwapi.models.Author;
 import pl.edu.pw.pamiwapi.services.AuthorService;
 
+import java.util.Random;
+
 import static pl.edu.pw.pamiwapi.seeders.Properties.NO_OF_DATA;
+import static pl.edu.pw.pamiwapi.seeders.Properties.DATA_SEED;
 
 @Component
 public class AuthorSeeder {
@@ -16,7 +19,7 @@ public class AuthorSeeder {
     @Autowired
     public AuthorSeeder(AuthorService service) {
         this.service = service;
-        this.faker = new Faker();
+        this.faker = new Faker(new Random(DATA_SEED));
     }
 
     public void seed() {

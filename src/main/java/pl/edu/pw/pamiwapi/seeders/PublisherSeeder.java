@@ -6,6 +6,9 @@ import org.springframework.stereotype.Component;
 import pl.edu.pw.pamiwapi.models.Publisher;
 import pl.edu.pw.pamiwapi.services.PublisherService;
 
+import java.util.Random;
+
+import static pl.edu.pw.pamiwapi.seeders.Properties.DATA_SEED;
 import static pl.edu.pw.pamiwapi.seeders.Properties.NO_OF_DATA;
 
 @Component
@@ -16,7 +19,7 @@ public class PublisherSeeder {
     @Autowired
     public PublisherSeeder(PublisherService service) {
         this.service = service;
-        this.faker = new Faker();
+        this.faker = new Faker(new Random(DATA_SEED));
     }
 
     public void seed() {
