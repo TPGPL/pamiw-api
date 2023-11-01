@@ -20,6 +20,12 @@ public class PublisherSeeder {
     }
 
     public void seed() {
+        var currData = service.getAll();
+
+        if (currData.iterator().hasNext()) {
+            return;
+        }
+
         for (int i = 0; i < NO_OF_DATA; i++) {
             var publisher = Publisher.builder()
                     .name(faker.book().publisher())

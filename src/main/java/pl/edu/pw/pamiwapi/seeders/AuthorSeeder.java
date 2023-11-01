@@ -20,6 +20,12 @@ public class AuthorSeeder {
     }
 
     public void seed() {
+        var currData = service.getAll();
+
+        if (currData.iterator().hasNext()) {
+            return;
+        }
+        
         for (int i = 0; i < NO_OF_DATA; i++) {
             var author = Author.builder()
                     .name(faker.name().firstName())

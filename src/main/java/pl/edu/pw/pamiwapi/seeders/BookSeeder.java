@@ -29,6 +29,12 @@ public class BookSeeder {
     }
 
     public void seed() {
+        var currData = service.getAll();
+
+        if (currData.iterator().hasNext()) {
+            return;
+        }
+
         int maxValue = Math.max(NO_OF_DATA - 5, NO_OF_DATA / 2);
 
         for (int i = 0; i < NO_OF_DATA; i++) {
