@@ -33,7 +33,6 @@ public class Book {
     @Column(name = "page_count")
     private int pageCount;
     @NotNull(message = "The book release date must not be null.")
-    @PastOrPresent
     @Column(name = "release_date")
     private Date releaseDate;
     @NotNull(message = "The book ISBN must not be null.")
