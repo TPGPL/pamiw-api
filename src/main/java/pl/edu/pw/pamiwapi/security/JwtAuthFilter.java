@@ -13,6 +13,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import pl.edu.pw.pamiwapi.services.AppUserDetailsService;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class JwtAuthFilter extends OncePerRequestFilter {
     @Autowired
@@ -28,7 +29,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
             var username = generator.getUsernameFromJwt(token);
 
             var userDetails = service.loadUserByUsername(username);
-            UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(userDetails, null);
+            UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(userDetails, "", new ArrayList<>());
             authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
             SecurityContextHolder.getContext().setAuthentication(authToken);
         }
