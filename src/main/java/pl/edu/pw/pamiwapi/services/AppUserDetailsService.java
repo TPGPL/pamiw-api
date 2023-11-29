@@ -1,5 +1,6 @@
 package pl.edu.pw.pamiwapi.services;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -11,6 +12,7 @@ import pl.edu.pw.pamiwapi.repositories.UserRepository;
 public class AppUserDetailsService implements UserDetailsService {
     private final UserRepository repository;
 
+    @Autowired
     public AppUserDetailsService(UserRepository repository) {
         this.repository = repository;
     }
