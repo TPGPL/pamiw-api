@@ -7,6 +7,8 @@ import org.springframework.stereotype.Component;
 import javax.crypto.SecretKey;
 import java.util.Date;
 
+import static pl.edu.pw.pamiwapi.security.JwtProperties.JWT_EXPIRE_TIME;
+
 @Component
 public class JwtGenerator {
     private static final SecretKey secret = Jwts.SIG.HS512.key().build();
@@ -14,7 +16,7 @@ public class JwtGenerator {
     public String generateJwt(Authentication authentication) {
         var username = authentication.getName();
         var currentDate = new Date();
-        var expireDate = new Date(currentDate.getTime() + JwtProperties.JWT_EXPIRE_TIME);
+        var expireDate = new Date(currentDate.getTime() + JWT_EXPIRE_TIME);
 
         return Jwts.builder()
                 .issuedAt(currentDate)
