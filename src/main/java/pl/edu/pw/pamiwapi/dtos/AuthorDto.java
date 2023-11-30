@@ -21,21 +21,4 @@ public class AuthorDto {
     private String email;
     @Builder.Default
     private List<BookDto> books = new ArrayList<>();
-
-    public static AuthorDto mapToDto(Author author) {
-        if (author == null) return null;
-
-        AuthorDto dto = AuthorDto.builder()
-                .id(author.getId())
-                .name(author.getName())
-                .surname(author.getSurname())
-                .email(author.getEmail())
-                .build();
-
-        for (var book : author.getBooks()) {
-            dto.books.add(BookDto.mapToDto(book));
-        }
-
-        return dto;
-    }
 }

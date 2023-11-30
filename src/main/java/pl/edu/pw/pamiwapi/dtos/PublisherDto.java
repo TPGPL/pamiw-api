@@ -18,19 +18,4 @@ public class PublisherDto {
     private String name;
     @Builder.Default
     private List<BookDto> books = new ArrayList<>();
-
-    public static PublisherDto mapToDto(Publisher publisher) {
-        if (publisher == null) return null;
-
-        PublisherDto dto = PublisherDto.builder()
-                .id(publisher.getId())
-                .name(publisher.getName())
-                .build();
-
-        for (var book : publisher.getBooks()) {
-            dto.books.add(BookDto.mapToDto(book));
-        }
-
-        return dto;
-    }
 }

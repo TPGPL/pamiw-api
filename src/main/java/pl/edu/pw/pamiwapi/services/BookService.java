@@ -3,7 +3,6 @@ package pl.edu.pw.pamiwapi.services;
 import jakarta.validation.Validator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import pl.edu.pw.pamiwapi.dtos.BookDto;
 import pl.edu.pw.pamiwapi.models.Book;
 import pl.edu.pw.pamiwapi.repositories.BookRepository;
 import pl.edu.pw.pamiwapi.utils.ServiceResponse;
@@ -11,16 +10,12 @@ import pl.edu.pw.pamiwapi.utils.ServiceResponse;
 @Service
 public class BookService {
     private final BookRepository repository;
-    private final PublisherService publisherService;
-    private final AuthorService authorService;
     private final Validator validator;
 
     @Autowired
-    public BookService(BookRepository repository, Validator validator, PublisherService publisherService, AuthorService authorService) {
+    public BookService(BookRepository repository, Validator validator) {
         this.validator = validator;
         this.repository = repository;
-        this.authorService = authorService;
-        this.publisherService = publisherService;
     }
 
     public Book getById(int id) {
@@ -83,19 +78,4 @@ public class BookService {
 
         return response.message("The book was deleted successfully.").build();
     }
-
-    public Book mapFromDto(BookDto dto) {
-        if (dto == null) return null;
-
-        return Book.builder()
-                .title(dto.getTitle())
-                .isbn(dto.getIsbn())
-                .releaseDate(dto.getReleaseDate())
-                .pageCount(dto.getPageCount())
-                .author(authorService.getById(dto.getAuthorId()))
-                .publisher(publisherService.getById(dto.getPublisherId()))
-                .build();
-    }
-
-
 }

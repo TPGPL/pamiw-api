@@ -3,7 +3,6 @@ package pl.edu.pw.pamiwapi.services;
 import jakarta.validation.Validator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import pl.edu.pw.pamiwapi.dtos.PublisherDto;
 import pl.edu.pw.pamiwapi.models.Publisher;
 import pl.edu.pw.pamiwapi.repositories.PublisherRepository;
 import pl.edu.pw.pamiwapi.utils.ServiceResponse;
@@ -73,13 +72,5 @@ public class PublisherService {
         repository.deleteById(id);
 
         return response.message("The publisher was successfully deleted.").build();
-    }
-
-    public Publisher mapFromDto(PublisherDto dto) {
-        if (dto == null) return null;
-
-        return Publisher.builder()
-                .name(dto.getName())
-                .build();
     }
 }

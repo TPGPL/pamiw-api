@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pl.edu.pw.pamiwapi.dtos.AuthorDto;
+import pl.edu.pw.pamiwapi.mappers.AuthorMapper;
 import pl.edu.pw.pamiwapi.models.Author;
 import pl.edu.pw.pamiwapi.services.AuthorService;
 import pl.edu.pw.pamiwapi.utils.ServiceResponse;
@@ -17,17 +18,19 @@ import java.util.List;
 @CrossOrigin
 public class AuthorController {
     private final AuthorService service;
+    private final AuthorMapper mapper;
 
     @Autowired
-    public AuthorController(AuthorService service) {
+    public AuthorController(AuthorService service, AuthorMapper mapper) {
         this.service = service;
+        this.mapper = mapper;
     }
 
     @GetMapping
     public ResponseEntity<ServiceResponse<List<AuthorDto>>> getAll() {
         List<AuthorDto> data = new ArrayList<>();
 
-        service.getAll().forEach((x) -> data.add(AuthorDto.mapToDto(x)));
+        service.getAll().forEach((x) -> data.add(mapper.mapToDto(x)));
 
         return ResponseEntity.status(HttpStatus.OK)
                 .body(ServiceResponse.<List<AuthorDto>>builder()
@@ -44,14 +47,14 @@ public class AuthorController {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(ServiceResponse.<AuthorDto>builder()
                         .wasSuccessful(true)
-                        .data(AuthorDto.mapToDto(data))
+                        .data(mapper.mapToDto(data))
                         .message(data == null ? "No data to fetch." : null)
                         .build());
     }
 
     @PostMapping
     public ResponseEntity<ServiceResponse<AuthorDto>> create(@RequestBody AuthorDto dto) {
-        var response = service.create(service.mapFromDto(dto));
+        var response = service.create(mapper.mapToEntity(dto));
 
         if (!response.isWasSuccessful()) {
             return getInvalidResponse(response);
@@ -62,7 +65,7 @@ public class AuthorController {
 
     @PutMapping("/{id}")
     public ResponseEntity<ServiceResponse<AuthorDto>> update(@PathVariable int id, @RequestBody AuthorDto dto) {
-        var response = service.update(id, service.mapFromDto(dto));
+        var response = service.update(id, mapper.mapToEntity(dto));
 
         if (!response.isWasSuccessful()) {
             return getInvalidResponse(response);
@@ -93,7 +96,7 @@ public class AuthorController {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(ServiceResponse.<AuthorDto>builder()
                         .wasSuccessful(true)
-                        .data(AuthorDto.mapToDto(response.getData()))
+                        .data(mapper.mapToDto(response.getData()))
                         .build());
     }
 }

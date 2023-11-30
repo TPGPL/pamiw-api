@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pl.edu.pw.pamiwapi.dtos.PublisherDto;
+import pl.edu.pw.pamiwapi.mappers.PublisherMapper;
 import pl.edu.pw.pamiwapi.models.Publisher;
 import pl.edu.pw.pamiwapi.services.PublisherService;
 import pl.edu.pw.pamiwapi.utils.ServiceResponse;
@@ -17,17 +18,19 @@ import java.util.List;
 @CrossOrigin
 public class PublisherController {
     private final PublisherService service;
+    private final PublisherMapper mapper;
 
     @Autowired
-    public PublisherController(PublisherService service) {
+    public PublisherController(PublisherService service, PublisherMapper mapper) {
         this.service = service;
+        this.mapper = mapper;
     }
 
     @GetMapping
     public ResponseEntity<ServiceResponse<List<PublisherDto>>> getAll() {
         List<PublisherDto> data = new ArrayList<>();
 
-        service.getAll().forEach((x) -> data.add(PublisherDto.mapToDto(x)));
+        service.getAll().forEach((x) -> data.add(mapper.mapToDto(x)));
 
         return ResponseEntity.status(HttpStatus.OK)
                 .body(ServiceResponse.<List<PublisherDto>>builder()
@@ -44,14 +47,14 @@ public class PublisherController {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(ServiceResponse.<PublisherDto>builder()
                         .wasSuccessful(true)
-                        .data(PublisherDto.mapToDto(data))
+                        .data(mapper.mapToDto(data))
                         .message(data == null ? "No data to fetch." : null)
                         .build());
     }
 
     @PostMapping
     public ResponseEntity<ServiceResponse<PublisherDto>> create(@RequestBody PublisherDto dto) {
-        var response = service.create(service.mapFromDto(dto));
+        var response = service.create(mapper.mapToEntity(dto));
 
         if (!response.isWasSuccessful()) {
             return getInvalidResponse(response);
@@ -62,7 +65,7 @@ public class PublisherController {
 
     @PutMapping("/{id}")
     public ResponseEntity<ServiceResponse<PublisherDto>> update(@PathVariable int id, @RequestBody PublisherDto dto) {
-        var response = service.update(id, service.mapFromDto(dto));
+        var response = service.update(id, mapper.mapToEntity(dto));
 
         if (!response.isWasSuccessful()) {
             return getInvalidResponse(response);
@@ -93,7 +96,7 @@ public class PublisherController {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(ServiceResponse.<PublisherDto>builder()
                         .wasSuccessful(true)
-                        .data(PublisherDto.mapToDto(response.getData()))
+                        .data(mapper.mapToDto(response.getData()))
                         .build());
     }
 }

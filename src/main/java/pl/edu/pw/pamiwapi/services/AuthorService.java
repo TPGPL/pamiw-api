@@ -3,7 +3,6 @@ package pl.edu.pw.pamiwapi.services;
 import jakarta.validation.Validator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import pl.edu.pw.pamiwapi.dtos.AuthorDto;
 import pl.edu.pw.pamiwapi.models.Author;
 import pl.edu.pw.pamiwapi.repositories.AuthorRepository;
 import pl.edu.pw.pamiwapi.utils.ServiceResponse;
@@ -87,15 +86,5 @@ public class AuthorService {
         repository.deleteById(id);
 
         return response.message("The author was successfully deleted.").build();
-    }
-
-    public Author mapFromDto(AuthorDto dto) {
-        if (dto == null) return null;
-
-        return Author.builder()
-                .name(dto.getName())
-                .surname(dto.getSurname())
-                .email(dto.getEmail())
-                .build();
     }
 }

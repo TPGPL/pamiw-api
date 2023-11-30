@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pl.edu.pw.pamiwapi.dtos.BookDto;
+import pl.edu.pw.pamiwapi.mappers.BookMapper;
 import pl.edu.pw.pamiwapi.models.Book;
 import pl.edu.pw.pamiwapi.services.BookService;
 import pl.edu.pw.pamiwapi.utils.ServiceResponse;
@@ -17,17 +18,19 @@ import java.util.List;
 @CrossOrigin
 public class BookController {
     private final BookService service;
+    private final BookMapper mapper;
 
     @Autowired
-    public BookController(BookService service) {
+    public BookController(BookService service, BookMapper mapper) {
         this.service = service;
+        this.mapper = mapper;
     }
 
     @GetMapping
     public ResponseEntity<ServiceResponse<List<BookDto>>> getAll() {
         List<BookDto> data = new ArrayList<>();
 
-        service.getAll().forEach((x) -> data.add(BookDto.mapToDto(x)));
+        service.getAll().forEach((x) -> data.add(mapper.mapToDto(x)));
 
         return ResponseEntity.status(HttpStatus.OK)
                 .body(ServiceResponse.<List<BookDto>>builder()
@@ -44,14 +47,14 @@ public class BookController {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(ServiceResponse.<BookDto>builder()
                         .wasSuccessful(true)
-                        .data(BookDto.mapToDto(data))
+                        .data(mapper.mapToDto(data))
                         .message(data == null ? "No data to fetch." : null)
                         .build());
     }
 
     @PostMapping
     public ResponseEntity<ServiceResponse<BookDto>> create(@RequestBody BookDto dto) {
-        var response = service.create(service.mapFromDto(dto));
+        var response = service.create(mapper.mapToEntity(dto));
 
         if (!response.isWasSuccessful()) {
             return getInvalidResponse(response);
@@ -62,7 +65,7 @@ public class BookController {
 
     @PutMapping("/{id}")
     public ResponseEntity<ServiceResponse<BookDto>> update(@PathVariable int id, @RequestBody BookDto dto) {
-        var response = service.update(id, service.mapFromDto(dto));
+        var response = service.update(id, mapper.mapToEntity(dto));
 
         if (!response.isWasSuccessful()) {
             return getInvalidResponse(response);
@@ -93,7 +96,7 @@ public class BookController {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(ServiceResponse.<BookDto>builder()
                         .wasSuccessful(true)
-                        .data(BookDto.mapToDto(response.getData()))
+                        .data(mapper.mapToDto(response.getData()))
                         .build());
     }
 }
