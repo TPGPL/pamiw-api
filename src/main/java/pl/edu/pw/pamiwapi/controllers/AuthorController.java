@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
+@RequestMapping("/authors")
 @CrossOrigin
 public class AuthorController {
     private final AuthorService service;
@@ -22,7 +23,7 @@ public class AuthorController {
         this.service = service;
     }
 
-    @GetMapping("/authors")
+    @GetMapping
     public ResponseEntity<ServiceResponse<List<AuthorDto>>> getAll() {
         List<AuthorDto> data = new ArrayList<>();
 
@@ -36,7 +37,7 @@ public class AuthorController {
                         .build());
     }
 
-    @GetMapping("/authors/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<ServiceResponse<AuthorDto>> get(@PathVariable int id) {
         var data = service.getById(id);
 
@@ -48,7 +49,7 @@ public class AuthorController {
                         .build());
     }
 
-    @PostMapping("/authors")
+    @PostMapping
     public ResponseEntity<ServiceResponse<AuthorDto>> create(@RequestBody AuthorDto dto) {
         var response = service.create(service.mapFromDto(dto));
 
@@ -59,7 +60,7 @@ public class AuthorController {
         return getValidResponse(response);
     }
 
-    @PutMapping("/authors/{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<ServiceResponse<AuthorDto>> update(@PathVariable int id, @RequestBody AuthorDto dto) {
         var response = service.update(id, service.mapFromDto(dto));
 
@@ -70,7 +71,7 @@ public class AuthorController {
         return getValidResponse(response);
     }
 
-    @DeleteMapping("/authors/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<ServiceResponse<AuthorDto>> delete(@PathVariable int id) {
         var response = service.delete(id);
 

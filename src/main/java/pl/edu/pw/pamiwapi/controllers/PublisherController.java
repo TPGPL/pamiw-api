@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
+@RequestMapping("/publishers")
 @CrossOrigin
 public class PublisherController {
     private final PublisherService service;
@@ -22,7 +23,7 @@ public class PublisherController {
         this.service = service;
     }
 
-    @GetMapping("/publishers")
+    @GetMapping
     public ResponseEntity<ServiceResponse<List<PublisherDto>>> getAll() {
         List<PublisherDto> data = new ArrayList<>();
 
@@ -36,7 +37,7 @@ public class PublisherController {
                         .build());
     }
 
-    @GetMapping("/publishers/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<ServiceResponse<PublisherDto>> get(@PathVariable int id) {
         var data = service.getById(id);
 
@@ -48,7 +49,7 @@ public class PublisherController {
                         .build());
     }
 
-    @PostMapping("/publishers")
+    @PostMapping
     public ResponseEntity<ServiceResponse<PublisherDto>> create(@RequestBody PublisherDto dto) {
         var response = service.create(service.mapFromDto(dto));
 
@@ -59,7 +60,7 @@ public class PublisherController {
         return getValidResponse(response);
     }
 
-    @PutMapping("/publishers/{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<ServiceResponse<PublisherDto>> update(@PathVariable int id, @RequestBody PublisherDto dto) {
         var response = service.update(id, service.mapFromDto(dto));
 
@@ -70,7 +71,7 @@ public class PublisherController {
         return getValidResponse(response);
     }
 
-    @DeleteMapping("/publishers/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<ServiceResponse<PublisherDto>> delete(@PathVariable int id) {
         var response = service.delete(id);
 
