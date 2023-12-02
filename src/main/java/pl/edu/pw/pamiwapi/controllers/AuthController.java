@@ -78,7 +78,7 @@ public class AuthController {
 
         var token = generator.generateJwt(auth);
 
-        return new ResponseEntity<>("Bearer " + token, HttpStatus.OK);
+        return new ResponseEntity<>(token, HttpStatus.OK);
     }
 
     private <T> String prepareViolationMessage(Set<ConstraintViolation<T>> violations) {
