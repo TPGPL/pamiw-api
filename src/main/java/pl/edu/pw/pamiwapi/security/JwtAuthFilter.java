@@ -11,8 +11,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
-import pl.edu.pw.pamiwapi.services.AppUserDetailsService;
 import pl.edu.pw.pamiwapi.services.JwtService;
+import pl.edu.pw.pamiwapi.services.UserService;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -21,7 +21,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
     @Autowired
     private JwtService jwtService;
     @Autowired
-    private AppUserDetailsService service;
+    private UserService userService;
 
     @Override
     protected void doFilterInternal(@NonNull HttpServletRequest request, @NonNull HttpServletResponse response, @NonNull FilterChain filterChain) throws ServletException, IOException {
@@ -29,7 +29,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 
         if (StringUtils.hasText(token) && jwtService.validateJwt(token)) {
             var username = jwtService.getUsernameFromJwt(token);
-            var userDetails = service.loadUserByUsername(username);
+            var userDetails = userService.loadUserByUsername(username);
             var authToken = new UsernamePasswordAuthenticationToken(userDetails, "", new ArrayList<>());
 
             authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));

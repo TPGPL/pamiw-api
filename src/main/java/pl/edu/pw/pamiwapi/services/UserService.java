@@ -6,24 +6,32 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import pl.edu.pw.pamiwapi.model.ServiceResponse;
+import pl.edu.pw.pamiwapi.model.domain.UserEntity;
 import pl.edu.pw.pamiwapi.repositories.UserRepository;
 
 @Service
-public class AppUserDetailsService implements UserDetailsService {
+public class UserService implements UserDetailsService {
     private final UserRepository repository;
 
     @Autowired
-    public AppUserDetailsService(UserRepository repository) {
+    public UserService(UserRepository repository) {
         this.repository = repository;
+    }
+
+    public ServiceResponse<UserEntity> getUserByUsername(String username) {
+        var user = repository.findByUsername(username);
+
+        return ServiceResponse.<UserEntity>builder().wasSuccessful(true).data(user.orElse(null)).build();
     }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        if (!repository.existsByUsername(username)) {
-            throw new UsernameNotFoundException("User does not exist.");
-        }
+        var user = getUserByUsername(username).getData();
 
-        var user = repository.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException("User does not exist."));
+        if (user == null) {
+            throw new UsernameNotFoundException("User with the name does not exist.");
+        }
 
         return User.builder().username(user.getUsername()).password(user.getPassword()).build();
     }
