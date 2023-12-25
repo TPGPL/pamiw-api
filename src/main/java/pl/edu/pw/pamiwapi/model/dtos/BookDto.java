@@ -1,7 +1,6 @@
-package pl.edu.pw.pamiwapi.dtos;
+package pl.edu.pw.pamiwapi.model.dtos;
 
 import lombok.*;
-import pl.edu.pw.pamiwapi.models.Book;
 
 import java.sql.Date;
 

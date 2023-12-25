@@ -2,8 +2,8 @@ package pl.edu.pw.pamiwapi.mappers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import pl.edu.pw.pamiwapi.dtos.AuthorDto;
-import pl.edu.pw.pamiwapi.models.Author;
+import pl.edu.pw.pamiwapi.model.dtos.AuthorDto;
+import pl.edu.pw.pamiwapi.model.domain.Author;
 
 @Component
 public class AuthorMapper implements EntityMapper<Author, AuthorDto> {

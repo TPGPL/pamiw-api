@@ -2,8 +2,8 @@ package pl.edu.pw.pamiwapi.mappers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import pl.edu.pw.pamiwapi.dtos.BookDto;
-import pl.edu.pw.pamiwapi.models.Book;
+import pl.edu.pw.pamiwapi.model.dtos.BookDto;
+import pl.edu.pw.pamiwapi.model.domain.Book;
 import pl.edu.pw.pamiwapi.services.AuthorService;
 import pl.edu.pw.pamiwapi.services.PublisherService;
 

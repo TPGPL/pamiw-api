@@ -3,7 +3,7 @@ package pl.edu.pw.pamiwapi.services;
 import jakarta.validation.Validator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import pl.edu.pw.pamiwapi.models.Book;
+import pl.edu.pw.pamiwapi.model.domain.Book;
 import pl.edu.pw.pamiwapi.repositories.BookRepository;
 import pl.edu.pw.pamiwapi.utils.ServiceResponse;
 

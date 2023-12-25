@@ -4,9 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import pl.edu.pw.pamiwapi.dtos.PublisherDto;
+import pl.edu.pw.pamiwapi.model.dtos.PublisherDto;
 import pl.edu.pw.pamiwapi.mappers.PublisherMapper;
-import pl.edu.pw.pamiwapi.models.Publisher;
+import pl.edu.pw.pamiwapi.model.domain.Publisher;
 import pl.edu.pw.pamiwapi.services.PublisherService;
 import pl.edu.pw.pamiwapi.utils.ServiceResponse;
 

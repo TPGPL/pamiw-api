@@ -3,7 +3,7 @@ package pl.edu.pw.pamiwapi.seeders;
 import net.datafaker.Faker;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import pl.edu.pw.pamiwapi.models.Author;
+import pl.edu.pw.pamiwapi.model.domain.Author;
 import pl.edu.pw.pamiwapi.services.AuthorService;
 
 import java.util.Random;

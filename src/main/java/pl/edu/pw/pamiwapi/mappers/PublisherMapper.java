@@ -2,8 +2,8 @@ package pl.edu.pw.pamiwapi.mappers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import pl.edu.pw.pamiwapi.dtos.PublisherDto;
-import pl.edu.pw.pamiwapi.models.Publisher;
+import pl.edu.pw.pamiwapi.model.dtos.PublisherDto;
+import pl.edu.pw.pamiwapi.model.domain.Publisher;
 
 @Component
 public class PublisherMapper implements EntityMapper<Publisher, PublisherDto> {

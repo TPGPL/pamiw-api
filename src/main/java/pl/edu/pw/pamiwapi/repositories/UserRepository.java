@@ -2,7 +2,7 @@ package pl.edu.pw.pamiwapi.repositories;
 
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
-import pl.edu.pw.pamiwapi.models.UserEntity;
+import pl.edu.pw.pamiwapi.model.domain.UserEntity;
 
 import java.util.Optional;
 

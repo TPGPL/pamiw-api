@@ -1,4 +1,4 @@
-package pl.edu.pw.pamiwapi.dtos;
+package pl.edu.pw.pamiwapi.model.dtos;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;

@@ -10,9 +10,9 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
-import pl.edu.pw.pamiwapi.dtos.UserLoginDto;
-import pl.edu.pw.pamiwapi.dtos.UserRegisterDto;
-import pl.edu.pw.pamiwapi.models.UserEntity;
+import pl.edu.pw.pamiwapi.model.dtos.UserLoginDto;
+import pl.edu.pw.pamiwapi.model.dtos.UserRegisterDto;
+import pl.edu.pw.pamiwapi.model.domain.UserEntity;
 import pl.edu.pw.pamiwapi.repositories.UserRepository;
 import pl.edu.pw.pamiwapi.security.JwtGenerator;
 

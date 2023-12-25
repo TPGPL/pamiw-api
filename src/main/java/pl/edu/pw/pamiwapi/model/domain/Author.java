@@ -1,4 +1,4 @@
-package pl.edu.pw.pamiwapi.models;
+package pl.edu.pw.pamiwapi.model.domain;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
