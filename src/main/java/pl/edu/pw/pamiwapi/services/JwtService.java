@@ -1,16 +1,16 @@
-package pl.edu.pw.pamiwapi.security;
+package pl.edu.pw.pamiwapi.services;
 
 import io.jsonwebtoken.Jwts;
 import org.springframework.security.core.Authentication;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import javax.crypto.SecretKey;
 import java.util.Date;
 
 import static pl.edu.pw.pamiwapi.security.JwtProperties.JWT_EXPIRE_TIME;
 
-@Component
-public class JwtGenerator {
+@Service
+public class JwtService {
     private static final SecretKey secret = Jwts.SIG.HS512.key().build();
 
     public String generateJwt(Authentication authentication) {

@@ -14,7 +14,7 @@ import pl.edu.pw.pamiwapi.model.dtos.UserLoginDto;
 import pl.edu.pw.pamiwapi.model.dtos.UserRegisterDto;
 import pl.edu.pw.pamiwapi.model.domain.UserEntity;
 import pl.edu.pw.pamiwapi.repositories.UserRepository;
-import pl.edu.pw.pamiwapi.security.JwtGenerator;
+import pl.edu.pw.pamiwapi.services.JwtService;
 
 import java.util.Set;
 
@@ -23,15 +23,15 @@ import java.util.Set;
 @CrossOrigin
 public class AuthController {
     private final AuthenticationManager manager;
-    private final JwtGenerator generator;
+    private final JwtService jwtService;
     private final UserRepository repository;
     private final BCryptPasswordEncoder encoder;
     private final Validator validator;
 
     @Autowired
-    public AuthController(AuthenticationManager manager, JwtGenerator generator, UserRepository repository, BCryptPasswordEncoder encoder, Validator validator) {
+    public AuthController(AuthenticationManager manager, JwtService jwtService, UserRepository repository, BCryptPasswordEncoder encoder, Validator validator) {
         this.manager = manager;
-        this.generator = generator;
+        this.jwtService = jwtService;
         this.repository = repository;
         this.encoder = encoder;
         this.validator = validator;
@@ -76,7 +76,7 @@ public class AuthController {
 
         SecurityContextHolder.getContext().setAuthentication(auth);
 
-        var token = generator.generateJwt(auth);
+        var token = jwtService.generateJwt(auth);
 
         return new ResponseEntity<>(token, HttpStatus.OK);
     }
