@@ -8,7 +8,7 @@ import pl.edu.pw.pamiwapi.model.dtos.AuthorDto;
 import pl.edu.pw.pamiwapi.mappers.AuthorMapper;
 import pl.edu.pw.pamiwapi.model.domain.Author;
 import pl.edu.pw.pamiwapi.services.AuthorService;
-import pl.edu.pw.pamiwapi.utils.ServiceResponse;
+import pl.edu.pw.pamiwapi.model.ServiceResponse;
 
 import java.util.ArrayList;
 import java.util.List;

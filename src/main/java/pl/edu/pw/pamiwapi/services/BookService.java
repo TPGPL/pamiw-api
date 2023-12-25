@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.edu.pw.pamiwapi.model.domain.Book;
 import pl.edu.pw.pamiwapi.repositories.BookRepository;
-import pl.edu.pw.pamiwapi.utils.ServiceResponse;
+import pl.edu.pw.pamiwapi.model.ServiceResponse;
 
 @Service
 public class BookService {

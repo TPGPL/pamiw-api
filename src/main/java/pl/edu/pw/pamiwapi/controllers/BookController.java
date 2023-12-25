@@ -8,7 +8,7 @@ import pl.edu.pw.pamiwapi.model.dtos.BookDto;
 import pl.edu.pw.pamiwapi.mappers.BookMapper;
 import pl.edu.pw.pamiwapi.model.domain.Book;
 import pl.edu.pw.pamiwapi.services.BookService;
-import pl.edu.pw.pamiwapi.utils.ServiceResponse;
+import pl.edu.pw.pamiwapi.model.ServiceResponse;
 
 import java.util.ArrayList;
 import java.util.List;

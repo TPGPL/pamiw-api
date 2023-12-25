@@ -1,4 +1,4 @@
-package pl.edu.pw.pamiwapi.utils;
+package pl.edu.pw.pamiwapi.model;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.validation.ConstraintViolation;
