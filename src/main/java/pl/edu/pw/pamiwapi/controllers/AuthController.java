@@ -23,16 +23,13 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<String> register(@RequestBody UserRegisterDto dto) {
+    public ResponseEntity<ServiceResponse<String>> register(@RequestBody UserRegisterDto dto) {
         var response = userService.createUser(dto);
 
-        if (!response.isSuccess()) {
-            var message = response.getMessage() == null ? "Failed to register." : response.getMessage();
-
-            return new ResponseEntity<>(message, HttpStatus.UNPROCESSABLE_ENTITY);
-        }
-
-        return new ResponseEntity<>("User registered successfully.", HttpStatus.OK);
+        return new ResponseEntity<>(ServiceResponse.<String>builder().
+                success(response.isSuccess())
+                .message(response.isSuccess() ? "User registered successfully." : response.getMessage()).build(),
+                response.isSuccess() ? HttpStatus.OK : HttpStatus.UNPROCESSABLE_ENTITY);
     }
 
     @PostMapping("/login")
