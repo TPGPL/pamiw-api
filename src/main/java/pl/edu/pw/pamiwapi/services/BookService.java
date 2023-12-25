@@ -34,7 +34,7 @@ public class BookService {
         }
 
         return ServiceResponse.<Book>builder()
-                .wasSuccessful(true)
+                .success(true)
                 .data(repository.save(book))
                 .build();
     }
@@ -62,13 +62,13 @@ public class BookService {
         }
 
         return ServiceResponse.<Book>builder()
-                .wasSuccessful(true)
+                .success(true)
                 .data(repository.save(bookToUpdate))
                 .build();
     }
 
     public ServiceResponse<Void> delete(int id) {
-        var response = ServiceResponse.<Void>builder().wasSuccessful(true);
+        var response = ServiceResponse.<Void>builder().success(true);
 
         if (!repository.existsById(id)) {
             return response.message("No book to delete.").build();

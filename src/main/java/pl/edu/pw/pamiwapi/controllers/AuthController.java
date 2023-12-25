@@ -26,7 +26,7 @@ public class AuthController {
     public ResponseEntity<String> register(@RequestBody UserRegisterDto dto) {
         var response = userService.createUser(dto);
 
-        if (!response.isWasSuccessful()) {
+        if (!response.isSuccess()) {
             var message = response.getMessage() == null ? "Failed to register." : response.getMessage();
 
             return new ResponseEntity<>(message, HttpStatus.UNPROCESSABLE_ENTITY);
@@ -39,7 +39,7 @@ public class AuthController {
     public ResponseEntity<String> login(@RequestBody UserLoginDto dto, HttpServletResponse servletResponse) {
         var response = userService.authenticate(dto);
 
-        if (response.isWasSuccessful()) {
+        if (response.isSuccess()) {
             var cookie = new Cookie("jwtToken", response.getData());
 
             cookie.setHttpOnly(true);
@@ -47,6 +47,6 @@ public class AuthController {
             servletResponse.addCookie(cookie);
         }
 
-        return new ResponseEntity<>(response.getMessage(), response.isWasSuccessful() ? HttpStatus.OK : HttpStatus.FORBIDDEN);
+        return new ResponseEntity<>(response.getMessage(), response.isSuccess() ? HttpStatus.OK : HttpStatus.FORBIDDEN);
     }
 }

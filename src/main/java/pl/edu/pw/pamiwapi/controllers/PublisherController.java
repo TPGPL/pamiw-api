@@ -35,7 +35,7 @@ public class PublisherController {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(ServiceResponse.<List<PublisherDto>>builder()
                         .data(data)
-                        .wasSuccessful(true)
+                        .success(true)
                         .message(data.isEmpty() ? "No data to fetch." : null)
                         .build());
     }
@@ -46,7 +46,7 @@ public class PublisherController {
 
         return ResponseEntity.status(HttpStatus.OK)
                 .body(ServiceResponse.<PublisherDto>builder()
-                        .wasSuccessful(true)
+                        .success(true)
                         .data(mapper.mapToDto(data))
                         .message(data == null ? "No data to fetch." : null)
                         .build());
@@ -56,7 +56,7 @@ public class PublisherController {
     public ResponseEntity<ServiceResponse<PublisherDto>> create(@RequestBody PublisherDto dto) {
         var response = service.create(mapper.mapToEntity(dto));
 
-        if (!response.isWasSuccessful()) {
+        if (!response.isSuccess()) {
             return getInvalidResponse(response);
         }
 
@@ -67,7 +67,7 @@ public class PublisherController {
     public ResponseEntity<ServiceResponse<PublisherDto>> update(@PathVariable int id, @RequestBody PublisherDto dto) {
         var response = service.update(id, mapper.mapToEntity(dto));
 
-        if (!response.isWasSuccessful()) {
+        if (!response.isSuccess()) {
             return getInvalidResponse(response);
         }
 
@@ -80,7 +80,7 @@ public class PublisherController {
 
         return ResponseEntity.status(HttpStatus.OK)
                 .body(ServiceResponse.<PublisherDto>builder()
-                        .wasSuccessful(true)
+                        .success(true)
                         .message(response.getMessage())
                         .build());
     }
@@ -95,7 +95,7 @@ public class PublisherController {
     private ResponseEntity<ServiceResponse<PublisherDto>> getValidResponse(ServiceResponse<Publisher> response) {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(ServiceResponse.<PublisherDto>builder()
-                        .wasSuccessful(true)
+                        .success(true)
                         .data(mapper.mapToDto(response.getData()))
                         .build());
     }

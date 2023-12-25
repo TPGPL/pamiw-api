@@ -34,7 +34,7 @@ public class AuthorController {
 
         return ResponseEntity.status(HttpStatus.OK)
                 .body(ServiceResponse.<List<AuthorDto>>builder()
-                        .wasSuccessful(true)
+                        .success(true)
                         .data(data)
                         .message(data.isEmpty() ? "No data to fetch." : null)
                         .build());
@@ -46,7 +46,7 @@ public class AuthorController {
 
         return ResponseEntity.status(HttpStatus.OK)
                 .body(ServiceResponse.<AuthorDto>builder()
-                        .wasSuccessful(true)
+                        .success(true)
                         .data(mapper.mapToDto(data))
                         .message(data == null ? "No data to fetch." : null)
                         .build());
@@ -56,7 +56,7 @@ public class AuthorController {
     public ResponseEntity<ServiceResponse<AuthorDto>> create(@RequestBody AuthorDto dto) {
         var response = service.create(mapper.mapToEntity(dto));
 
-        if (!response.isWasSuccessful()) {
+        if (!response.isSuccess()) {
             return getInvalidResponse(response);
         }
 
@@ -67,7 +67,7 @@ public class AuthorController {
     public ResponseEntity<ServiceResponse<AuthorDto>> update(@PathVariable int id, @RequestBody AuthorDto dto) {
         var response = service.update(id, mapper.mapToEntity(dto));
 
-        if (!response.isWasSuccessful()) {
+        if (!response.isSuccess()) {
             return getInvalidResponse(response);
         }
 
@@ -80,7 +80,7 @@ public class AuthorController {
 
         return ResponseEntity.status(HttpStatus.OK)
                 .body(ServiceResponse.<AuthorDto>builder()
-                        .wasSuccessful(true)
+                        .success(true)
                         .message(response.getMessage())
                         .build());
     }
@@ -95,7 +95,7 @@ public class AuthorController {
     private ResponseEntity<ServiceResponse<AuthorDto>> getValidResponse(ServiceResponse<Author> response) {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(ServiceResponse.<AuthorDto>builder()
-                        .wasSuccessful(true)
+                        .success(true)
                         .data(mapper.mapToDto(response.getData()))
                         .build());
     }

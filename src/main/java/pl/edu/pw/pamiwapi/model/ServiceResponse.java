@@ -13,7 +13,7 @@ import java.util.Set;
 public class ServiceResponse<T> {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private T data;
-    private boolean wasSuccessful;
+    private boolean success;
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private String message;
 

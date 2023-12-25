@@ -34,7 +34,7 @@ public class BookController {
 
         return ResponseEntity.status(HttpStatus.OK)
                 .body(ServiceResponse.<List<BookDto>>builder()
-                        .wasSuccessful(true)
+                        .success(true)
                         .data(data)
                         .message(data.isEmpty() ? "No data to fetch." : null)
                         .build());
@@ -46,7 +46,7 @@ public class BookController {
 
         return ResponseEntity.status(HttpStatus.OK)
                 .body(ServiceResponse.<BookDto>builder()
-                        .wasSuccessful(true)
+                        .success(true)
                         .data(mapper.mapToDto(data))
                         .message(data == null ? "No data to fetch." : null)
                         .build());
@@ -56,7 +56,7 @@ public class BookController {
     public ResponseEntity<ServiceResponse<BookDto>> create(@RequestBody BookDto dto) {
         var response = service.create(mapper.mapToEntity(dto));
 
-        if (!response.isWasSuccessful()) {
+        if (!response.isSuccess()) {
             return getInvalidResponse(response);
         }
 
@@ -67,7 +67,7 @@ public class BookController {
     public ResponseEntity<ServiceResponse<BookDto>> update(@PathVariable int id, @RequestBody BookDto dto) {
         var response = service.update(id, mapper.mapToEntity(dto));
 
-        if (!response.isWasSuccessful()) {
+        if (!response.isSuccess()) {
             return getInvalidResponse(response);
         }
 
@@ -80,7 +80,7 @@ public class BookController {
 
         return ResponseEntity.status(HttpStatus.OK)
                 .body(ServiceResponse.<BookDto>builder()
-                        .wasSuccessful(true)
+                        .success(true)
                         .message(response.getMessage())
                         .build());
     }
@@ -95,7 +95,7 @@ public class BookController {
     private ResponseEntity<ServiceResponse<BookDto>> getValidResponse(ServiceResponse<Book> response) {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(ServiceResponse.<BookDto>builder()
-                        .wasSuccessful(true)
+                        .success(true)
                         .data(mapper.mapToDto(response.getData()))
                         .build());
     }

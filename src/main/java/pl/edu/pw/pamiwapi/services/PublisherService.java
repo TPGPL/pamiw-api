@@ -34,7 +34,7 @@ public class PublisherService {
         }
 
         return ServiceResponse.<Publisher>builder()
-                .wasSuccessful(true)
+                .success(true)
                 .data(repository.save(publisher))
                 .build();
     }
@@ -57,13 +57,13 @@ public class PublisherService {
         }
 
         return ServiceResponse.<Publisher>builder()
-                .wasSuccessful(true)
+                .success(true)
                 .data(repository.save(publisherToUpdate))
                 .build();
     }
 
     public ServiceResponse<Void> delete(int id) {
-        var response = ServiceResponse.<Void>builder().wasSuccessful(true);
+        var response = ServiceResponse.<Void>builder().success(true);
 
         if (!repository.existsById(id)) {
             return response.message("No publisher to delete.").build();

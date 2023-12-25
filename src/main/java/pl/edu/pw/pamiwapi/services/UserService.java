@@ -35,7 +35,7 @@ public class UserService implements UserDetailsService {
     public ServiceResponse<UserEntity> getUserByUsername(String username) {
         var user = repository.findByUsername(username);
 
-        return ServiceResponse.<UserEntity>builder().wasSuccessful(true).data(user.orElse(null)).build();
+        return ServiceResponse.<UserEntity>builder().success(true).data(user.orElse(null)).build();
     }
 
     @Override
@@ -51,13 +51,13 @@ public class UserService implements UserDetailsService {
 
     public ServiceResponse<UserEntity> createUser(UserRegisterDto dto) {
         if (repository.existsByEmail(dto.getEmail()) || repository.existsByUsername(dto.getUsername())) {
-            return ServiceResponse.<UserEntity>builder().wasSuccessful(false).message("User with this data already exists.").build();
+            return ServiceResponse.<UserEntity>builder().success(false).message("User with this data already exists.").build();
         }
 
         var violations = validator.validate(dto);
 
         if (!violations.isEmpty()) {
-            return ServiceResponse.<UserEntity>builder().wasSuccessful(false).message(prepareViolationMessage(violations)).build();
+            return ServiceResponse.<UserEntity>builder().success(false).message(prepareViolationMessage(violations)).build();
         }
 
         var user = UserEntity.builder()
@@ -66,29 +66,29 @@ public class UserService implements UserDetailsService {
                 .password(passwordEncoder.encode(dto.getPassword()))
                 .build();
 
-        return ServiceResponse.<UserEntity>builder().wasSuccessful(true).data(repository.save(user)).build();
+        return ServiceResponse.<UserEntity>builder().success(true).data(repository.save(user)).build();
     }
 
     public ServiceResponse<String> authenticate(UserLoginDto dto) {
         if (!dto.getPassword().equals(dto.getConfirmPassword())) {
-            return ServiceResponse.<String>builder().wasSuccessful(false).message("Password do not match.").build();
+            return ServiceResponse.<String>builder().success(false).message("Password do not match.").build();
         }
 
         var violations = validator.validate(dto);
 
         if (!violations.isEmpty()) {
-            return ServiceResponse.<String>builder().wasSuccessful(false).message(prepareViolationMessage(violations)).build();
+            return ServiceResponse.<String>builder().success(false).message(prepareViolationMessage(violations)).build();
         }
 
         var user = getUserByUsername(dto.getUsername()).getData();
 
         if (user == null || !passwordEncoder.matches(dto.getPassword(), user.getPassword())) {
-            return ServiceResponse.<String>builder().wasSuccessful(false).message("Failed to login.").build();
+            return ServiceResponse.<String>builder().success(false).message("Failed to login.").build();
         }
 
         var token = jwtService.generateJwt(user.getUsername());
 
-        return ServiceResponse.<String>builder().wasSuccessful(true).message("Authenticated.").data(token).build();
+        return ServiceResponse.<String>builder().success(true).message("Authenticated.").data(token).build();
     }
 
     private <T> String prepareViolationMessage(Set<ConstraintViolation<T>> violations) {

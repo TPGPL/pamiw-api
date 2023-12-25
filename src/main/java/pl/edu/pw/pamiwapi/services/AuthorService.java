@@ -41,7 +41,7 @@ public class AuthorService {
 
         return ServiceResponse.<Author>builder()
                 .data(repository.save(author))
-                .wasSuccessful(true)
+                .success(true)
                 .build();
     }
 
@@ -72,12 +72,12 @@ public class AuthorService {
 
         return ServiceResponse.<Author>builder()
                 .data(repository.save(authorToUpdate))
-                .wasSuccessful(true)
+                .success(true)
                 .build();
     }
 
     public ServiceResponse<Void> delete(int id) {
-        var response = ServiceResponse.<Void>builder().wasSuccessful(true);
+        var response = ServiceResponse.<Void>builder().success(true);
 
         if (!repository.existsById(id)) {
             return response.message("No author to delete.").build();
