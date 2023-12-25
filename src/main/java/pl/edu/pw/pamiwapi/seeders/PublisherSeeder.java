@@ -1,6 +1,6 @@
 package pl.edu.pw.pamiwapi.seeders;
 
-import com.github.javafaker.Faker;
+import net.datafaker.Faker;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import pl.edu.pw.pamiwapi.models.Publisher;
