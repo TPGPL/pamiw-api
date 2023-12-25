@@ -8,7 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import pl.edu.pw.pamiwapi.model.dtos.UserLoginDto;
 import pl.edu.pw.pamiwapi.model.dtos.UserRegisterDto;
@@ -25,11 +25,11 @@ public class AuthController {
     private final AuthenticationManager manager;
     private final JwtService jwtService;
     private final UserRepository repository;
-    private final BCryptPasswordEncoder encoder;
+    private final PasswordEncoder encoder;
     private final Validator validator;
 
     @Autowired
-    public AuthController(AuthenticationManager manager, JwtService jwtService, UserRepository repository, BCryptPasswordEncoder encoder, Validator validator) {
+    public AuthController(AuthenticationManager manager, JwtService jwtService, UserRepository repository, PasswordEncoder encoder, Validator validator) {
         this.manager = manager;
         this.jwtService = jwtService;
         this.repository = repository;
