@@ -1,6 +1,5 @@
 package pl.edu.pw.pamiwapi.security;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -12,7 +11,6 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
@@ -20,26 +18,17 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfiguration {
-    private final AuthenticationEntryPoint entryPoint;
-
-    @Autowired
-    public SecurityConfiguration(AuthenticationEntryPoint entryPoint) {
-        this.entryPoint = entryPoint;
-    }
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .cors(Customizer.withDefaults())
                 .csrf(AbstractHttpConfigurer::disable)
-                .exceptionHandling(exh -> exh.authenticationEntryPoint(entryPoint))
                 .sessionManagement((session) -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .addFilterBefore(jwtAuthFilter(), UsernamePasswordAuthenticationFilter.class)
                 .authorizeHttpRequests((auth) -> auth
                         .requestMatchers(AntPathRequestMatcher.antMatcher("/auth/**")).permitAll()
-                        .anyRequest().authenticated())
-                .httpBasic(Customizer.withDefaults());
-
-        http.addFilterBefore(jwtAuthFilter(), UsernamePasswordAuthenticationFilter.class);
+                        .anyRequest().authenticated());
 
         return http.build();
     }
