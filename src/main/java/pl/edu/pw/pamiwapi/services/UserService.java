@@ -11,6 +11,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import pl.edu.pw.pamiwapi.model.ServiceResponse;
 import pl.edu.pw.pamiwapi.model.domain.UserEntity;
+import pl.edu.pw.pamiwapi.model.dtos.JwtResponse;
 import pl.edu.pw.pamiwapi.model.dtos.UserLoginDto;
 import pl.edu.pw.pamiwapi.model.dtos.UserRegisterDto;
 import pl.edu.pw.pamiwapi.repositories.UserRepository;
@@ -69,26 +70,26 @@ public class UserService implements UserDetailsService {
         return ServiceResponse.<UserEntity>builder().success(true).data(repository.save(user)).build();
     }
 
-    public ServiceResponse<String> authenticate(UserLoginDto dto) {
+    public ServiceResponse<JwtResponse> authenticate(UserLoginDto dto) {
         if (!dto.getPassword().equals(dto.getConfirmPassword())) {
-            return ServiceResponse.<String>builder().success(false).message("Password do not match.").build();
+            return ServiceResponse.<JwtResponse>builder().success(false).message("Password do not match.").build();
         }
 
         var violations = validator.validate(dto);
 
         if (!violations.isEmpty()) {
-            return ServiceResponse.<String>builder().success(false).message(prepareViolationMessage(violations)).build();
+            return ServiceResponse.<JwtResponse>builder().success(false).message(prepareViolationMessage(violations)).build();
         }
 
         var user = getUserByUsername(dto.getUsername()).getData();
 
         if (user == null || !passwordEncoder.matches(dto.getPassword(), user.getPassword())) {
-            return ServiceResponse.<String>builder().success(false).message("Failed to login.").build();
+            return ServiceResponse.<JwtResponse>builder().success(false).message("Failed to login.").build();
         }
 
         var token = jwtService.generateJwt(user.getUsername());
 
-        return ServiceResponse.<String>builder().success(true).message("Authenticated.").data(token).build();
+        return ServiceResponse.<JwtResponse>builder().success(true).message("Authenticated.").data(token).build();
     }
 
     private <T> String prepareViolationMessage(Set<ConstraintViolation<T>> violations) {

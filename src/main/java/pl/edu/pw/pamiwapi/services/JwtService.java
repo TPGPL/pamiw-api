@@ -2,6 +2,7 @@ package pl.edu.pw.pamiwapi.services;
 
 import io.jsonwebtoken.Jwts;
 import org.springframework.stereotype.Service;
+import pl.edu.pw.pamiwapi.model.dtos.JwtResponse;
 
 import javax.crypto.SecretKey;
 import java.util.Date;
@@ -12,17 +13,19 @@ public class JwtService {
     private static final int JWT_EXPIRE_TIME = 30 * 60 * 1000;
     private static final String JWT_ISSUER = "PamiwAPI";
 
-    public String generateJwt(String username) {
+    public JwtResponse generateJwt(String username) {
         var currentDate = new Date();
         var expireDate = new Date(currentDate.getTime() + JWT_EXPIRE_TIME);
 
-        return Jwts.builder()
+        var token = Jwts.builder()
                 .issuer(JWT_ISSUER)
                 .issuedAt(currentDate)
                 .expiration(expireDate)
                 .subject(username)
                 .signWith(secret)
                 .compact();
+
+        return JwtResponse.builder().issuedAt(currentDate).expireAt(expireDate).token(token).build();
     }
 
     public String getUsernameFromJwt(String token) {

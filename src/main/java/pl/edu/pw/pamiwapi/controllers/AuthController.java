@@ -1,11 +1,11 @@
 package pl.edu.pw.pamiwapi.controllers;
 
-import jakarta.servlet.http.Cookie;
-import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import pl.edu.pw.pamiwapi.model.ServiceResponse;
+import pl.edu.pw.pamiwapi.model.dtos.JwtResponse;
 import pl.edu.pw.pamiwapi.model.dtos.UserLoginDto;
 import pl.edu.pw.pamiwapi.model.dtos.UserRegisterDto;
 import pl.edu.pw.pamiwapi.services.UserService;
@@ -36,18 +36,9 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody UserLoginDto dto, HttpServletResponse servletResponse) {
+    public ResponseEntity<ServiceResponse<JwtResponse>> login(@RequestBody UserLoginDto dto) {
         var response = userService.authenticate(dto);
 
-        if (response.isSuccess()) {
-            var cookie = new Cookie("jwtToken", response.getData());
-
-            cookie.setHttpOnly(true);
-            cookie.setMaxAge(30 * 60);
-            cookie.setPath("/api");
-            servletResponse.addCookie(cookie);
-        }
-
-        return new ResponseEntity<>(response.getMessage(), response.isSuccess() ? HttpStatus.OK : HttpStatus.FORBIDDEN);
+        return new ResponseEntity<>(response, response.isSuccess() ? HttpStatus.OK : HttpStatus.FORBIDDEN);
     }
 }
