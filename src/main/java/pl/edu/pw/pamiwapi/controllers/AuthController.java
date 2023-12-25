@@ -44,6 +44,7 @@ public class AuthController {
 
             cookie.setHttpOnly(true);
             cookie.setMaxAge(30 * 60);
+            cookie.setPath("/api");
             servletResponse.addCookie(cookie);
         }
 
