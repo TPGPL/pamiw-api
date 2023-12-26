@@ -2,7 +2,6 @@ package pl.edu.pw.pamiwapi.security;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
-import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,8 +13,6 @@ import pl.edu.pw.pamiwapi.services.JwtService;
 import pl.edu.pw.pamiwapi.services.UserService;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
 
 public class JwtFilter extends OncePerRequestFilter {
     @Autowired
@@ -30,7 +27,7 @@ public class JwtFilter extends OncePerRequestFilter {
         if (token != null && jwtService.validateJwt(token)) {
             var username = jwtService.getUsernameFromJwt(token);
             var userDetails = userService.loadUserByUsername(username);
-            var authToken = new UsernamePasswordAuthenticationToken(userDetails, "", new ArrayList<>()); // TODO: Add roles
+            var authToken = new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
 
             SecurityContextHolder.getContext().setAuthentication(authToken);
         }

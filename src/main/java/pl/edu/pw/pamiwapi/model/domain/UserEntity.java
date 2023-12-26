@@ -7,7 +7,7 @@ import lombok.*;
 @Getter
 @Setter
 @Builder
-@Table(name="Users")
+@Table(name = "Users")
 @AllArgsConstructor
 @NoArgsConstructor
 public class UserEntity {
@@ -17,4 +17,7 @@ public class UserEntity {
     private String username;
     private String email;
     private String password;
+    @Builder.Default
+    @Enumerated(value = EnumType.STRING)
+    private UserRole role = UserRole.User;
 }

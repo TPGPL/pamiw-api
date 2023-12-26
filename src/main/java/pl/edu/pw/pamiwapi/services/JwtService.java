@@ -13,7 +13,7 @@ public class JwtService {
     private static final int JWT_EXPIRE_TIME = 30 * 60 * 1000;
     private static final String JWT_ISSUER = "PamiwAPI";
 
-    public JwtResponse generateJwt(String username) {
+    public JwtResponse generateJwt(String username, String role) {
         var currentDate = new Date();
         var expireDate = new Date(currentDate.getTime() + JWT_EXPIRE_TIME);
 
@@ -22,6 +22,7 @@ public class JwtService {
                 .issuedAt(currentDate)
                 .expiration(expireDate)
                 .subject(username)
+                .claim("role", role)
                 .signWith(secret)
                 .compact();
 

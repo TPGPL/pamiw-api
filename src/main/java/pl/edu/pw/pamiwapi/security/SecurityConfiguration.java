@@ -2,6 +2,10 @@ package pl.edu.pw.pamiwapi.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler;
+import org.springframework.security.access.expression.method.MethodSecurityExpressionHandler;
+import org.springframework.security.access.hierarchicalroles.RoleHierarchy;
+import org.springframework.security.access.hierarchicalroles.RoleHierarchyImpl;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
@@ -46,5 +50,23 @@ public class SecurityConfiguration {
     @Bean
     public JwtFilter jwtFilter() {
         return new JwtFilter();
+    }
+
+    @Bean
+    public RoleHierarchy roleHierarchy() {
+        var hierarchy = "ROLE_ADMIN > ROLE_USER";
+        var roleHierarchy = new RoleHierarchyImpl();
+
+        roleHierarchy.setHierarchy(hierarchy);
+
+        return roleHierarchy;
+    }
+
+    @Bean
+    public MethodSecurityExpressionHandler methodSecurityExpressionHandler(RoleHierarchy roleHierarchy) {
+        var expressionHandler = new DefaultMethodSecurityExpressionHandler();
+        expressionHandler.setRoleHierarchy(roleHierarchy);
+
+        return expressionHandler;
     }
 }

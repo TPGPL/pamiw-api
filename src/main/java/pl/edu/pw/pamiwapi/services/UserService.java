@@ -47,7 +47,7 @@ public class UserService implements UserDetailsService {
             throw new UsernameNotFoundException("User with the name does not exist.");
         }
 
-        return User.builder().username(user.getUsername()).password(user.getPassword()).build();
+        return User.builder().username(user.getUsername()).password(user.getPassword()).authorities(user.getRole().authority).build();
     }
 
     public ServiceResponse<UserEntity> createUser(UserRegisterDto dto) {
@@ -87,7 +87,7 @@ public class UserService implements UserDetailsService {
             return ServiceResponse.<JwtResponse>builder().success(false).message("Failed to login.").build();
         }
 
-        var token = jwtService.generateJwt(user.getUsername());
+        var token = jwtService.generateJwt(user.getUsername(), user.getRole().authority);
 
         return ServiceResponse.<JwtResponse>builder().success(true).message("Authenticated.").data(token).build();
     }
