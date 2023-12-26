@@ -35,7 +35,7 @@ public class UserSeeder {
         var regularUser = UserEntity.builder()
                 .email("user@test.com")
                 .username("user")
-                .password(passwordEncoder.encode("user"))
+                .password(passwordEncoder.encode("password"))
                 .role(UserRole.User)
                 .build();
 
