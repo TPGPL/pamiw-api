@@ -10,5 +10,6 @@ import java.util.Optional;
 public interface UserRepository extends CrudRepository<UserEntity, Integer> {
     boolean existsByEmail(String email);
     boolean existsByUsername(String username);
+    boolean existsBy();
     Optional<UserEntity> findByUsername(String username);
 }
